@@ -23,14 +23,11 @@ namespace dw
 
 
 
-    inline int block2col(int b)
-    {
-    return 2*b-1;
-    }
+
     void window(int top, int left, int width, int height, std::string title)
     {
     for(int r=0;r<height;r++){
-        tc::move_to(top+r,block2col(left));
+        tc::move_to(top+r,ut::b2c(left));
         for(int c=0;c<width;c++){
             if(r==0){
                 if(c==0){
@@ -62,11 +59,60 @@ namespace dw
 
 
         }
-        tc::move_to(top,block2col(left)+(width*2-title.length())/2);
-        std::cout<<title;
+
     }
-    
+
+    //title
+    tc::move_to(top,ut::b2c(left)+(width*2-title.length())/2);
+    std::cout<<title;
+    }
+    void tetromino(gm::Tetromino_1 &t, int top, int left)
+    {
+        for(int i=0;i<t.size();++i){
+            tc::move_to(top+i,ut::b2c(left));
+            for(int j=0;j<t[0].size();++j){
+                if(t[i][j]>0){
+                    tc::set_back_color((int)gm::tetro_color[t[i][j]]);
+                    std::cout<<"  ";
+                }
+                else{
+                    tc::reset_color();
+                    std::cout<<"  ";
+                }
+            }
+        }
+    }
+    void tetromino(gm::Tetromino_2 &t, int top, int left, int index)
+    {
+        for(int i=0;i<4;++i){
+            tc::move_to(top+i,ut::b2c(left));
+            for(int j=0;j<4;++j)
+            {
+                if(gm::get_bit(t[index],i,j))
+                {
+                    tc::set_back_color(t[index]>>16 &0xff);
+                    std::cout<<"  ";
+                }
+                else
+                {
+                    tc::reset_color();
+                    std::cout<<"  ";
+                }
+                
+            }
+        }
+
+    }
+    void tetromino(gm::Tetromino &t, int top, int left, int index)
+    {
+        tc::move_to(top,ut::b2c(left));
+        tc::set_back_color(t[index][0].second);
+        std::cout << "  ";
+        for(auto p:t[index]){
+            if(p.first>'A') continue;
+            tc::move_to(top-p.second, ut::b2c(left+p.first));
+            std::cout << "  ";
+            
+        }
     }
 } // namespace dw
-
-

@@ -18,7 +18,7 @@ void init(){
 void loop(){
     int i=1;
     while(gm::running){
-        
+        gm::process();
         tc::clean_screen();
         dw::window(1,1,9,6,"Hold");
         dw::window(1,10,12,22,"Tetriz");
@@ -37,6 +37,9 @@ void loop(){
         // dw::tetromino(gm::cur,gm::row,gm::col);
         // dw::tetromino(gm::cur_set,gm::row,gm::col,gm::cur_index);
         // dw::tetromino(gm::cur_s,gm::row,gm::col,gm::cur_index);
+
+        dw::frame(gm::frame,2,11);
+
         tc::reset_color();
 
         std::cout<<std::flush;

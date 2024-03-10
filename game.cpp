@@ -23,9 +23,27 @@ namespace gm
     }
 void render(){
      frame=playfield;
+     auto [x,y] = one_piece.get_xy();
+     //zhengchangkuai
+     //[0,4)
      for(auto i:iota(0,4)){
-        
+        auto [dx,dy]=one_piece.get_mino(i);
+        frame[x+dx][y+dy]=one_piece.get_Color();
      }
+
+     while (one_piece.test(x,--y))
+     {
+        /* code */
+     };
+     y++;
+     for(auto i:iota(0,4)){
+        auto [dx,dy]=one_piece.get_mino(i);
+        if(frame[x+dx][y+dy]==0)
+            frame[x+dx][y+dy]=0-one_piece.get_Color();
+     }
+     
+
+
 }
 
     void init()
@@ -36,6 +54,7 @@ void render(){
         playfield=Matrix(10,std::vector<int>(22,0));
         duration=500ms;
         frame=playfield;
+        one_piece.set_playfield(std::make_shared<Matrix>(playfield));
         // row=2;
         // col=15;
         // cur=S;
@@ -57,21 +76,25 @@ void render(){
     {
         // // cur=rotate(cur);
         // cur_index=(cur_index+1)%4;
+        one_piece.rotate();
     }
 
     void left()
     {
         // col--;
+        one_piece.left();
     }
 
     void right()
     {
         // col++;
+        one_piece.right();
     }
 
     void down()
     {
         // row++;
+        one_piece.down();
     
     }
 
